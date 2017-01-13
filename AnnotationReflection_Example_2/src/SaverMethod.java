@@ -8,4 +8,6 @@ import java.lang.annotation.Target;
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-@interface SaverMethod {}
+@interface SaverMethod {
+
+}
