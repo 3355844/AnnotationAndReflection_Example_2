@@ -6,18 +6,26 @@ import java.lang.reflect.Method;
  */
 public class RunnerTextContainer {
     public static void main(String[] args) {
-        Class<?> gettingClass = Saver.class.getClass();
-        // можливо опрацювати клас на наявність аннотоації SaveTo.class або порацювати безпосередньо в методі
-        Method [] methods = gettingClass.getMethods();
+        Saver saver = null;
+        Class workClass = TextContainer.class;
+        System.out.println(workClass.toString());
+        try {
+            saver = Saver.class.newInstance();
+            System.out.println(saver.toString());
+        } catch (IllegalAccessException | InstantiationException e) {
+            e.printStackTrace();
+        }
+        Method[] methods = saver.getClass().getMethods();
         for (Method method : methods) {
-            if (method.isAnnotationPresent(SaverMethod.class)){
+            System.out.println(method.toString());
+            if (method.isAnnotationPresent(SaverMethod.class)) {
+                System.out.println("Come to Annotated Class");
+                System.out.println(method.toString());
                 try {
-                    method.invoke(TextContainer.class.newInstance());
+                    method.invoke(Saver.class.newInstance(), TextContainer.class.newInstance());
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
-                } catch (InvocationTargetException e) {
-                    e.printStackTrace();
-                } catch (InstantiationException e) {
+                } catch (InvocationTargetException | InstantiationException e) {
                     e.printStackTrace();
                 }
             }
