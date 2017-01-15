@@ -6,7 +6,8 @@ public class TextContainer {
 
     private String stringTextContainer = "String Text Container`s 2";
 
-    public TextContainer() {}
+    public TextContainer() {
+    }
 
     public TextContainer(String stringTextContainer) {
         this.stringTextContainer = stringTextContainer;
