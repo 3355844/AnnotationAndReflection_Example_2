@@ -23,9 +23,7 @@ public class RunnerTextContainer {
                 System.out.println(method.toString());
                 try {
                     method.invoke(Saver.class.newInstance(), TextContainer.class.newInstance());
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                } catch (InvocationTargetException | InstantiationException e) {
+                } catch (IllegalAccessException | InvocationTargetException | InstantiationException e) {
                     e.printStackTrace();
                 }
             }
