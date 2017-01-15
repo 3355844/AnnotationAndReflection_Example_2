@@ -9,49 +9,39 @@ public class Saver {
 
     @SaverMethod
     public void save(TextContainer container) {
-        System.out.println("Come to save Method");
         Class<?> containerClass = container.getClass();
         if (!containerClass.isAnnotationPresent(SaveTo.class)) {
-            System.out.println("This class can`t be saved!");
+            System.out.println("This class can`t be saved! Class not Annotated by @SaveTo");
         } else {
-            System.out.println("Come to annotated Class SaveTo...");
             String path = containerClass.getAnnotation(SaveTo.class).path();
-            System.out.println(path);
-            try {
-                savingProcess(containerClass, path);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            savingProcess(containerClass, path);
         }
     }
 
-    private void savingProcess(Class<?> containerClass, String path) throws IOException {
+    private void savingProcess(Class<?> containerClass, String path) {
 
         try {
             ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(path, true));
             Method method = containerClass.getMethod("getStringTextContainer");
             String text = (String) method.invoke(TextContainer.class.newInstance());
-            System.out.println(text);
             oos.writeObject(text);
             oos.flush();
             oos.close();
         } catch (IOException | NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
-            System.out.println("Creating file");
-            File file = new File (path);
-
-            System.out.println("File created :" );
-            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file, true));
+            File file = new File(path);
+            ObjectOutputStream oos = null;
             try {
-                oos.writeObject(TextContainer.class.newInstance().getStringTextContainer());
-            } catch (InstantiationException e1) {
-                e1.printStackTrace();
-            } catch (IllegalAccessException e1) {
+                oos = new ObjectOutputStream(new FileOutputStream(file, true));
+            } catch (IOException e1) {
                 e1.printStackTrace();
             }
-
+            try {
+                oos.writeObject(TextContainer.class.newInstance().getStringTextContainer());
+            } catch (InstantiationException | IllegalAccessException | IOException e1) {
+                e1.printStackTrace();
+            }
         }
     }
-
 
     public Saver() {
     }
